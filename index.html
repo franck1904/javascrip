@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>taller_JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<script>
+    function ejemplo() {
+        var cedula = document.getElementById("cedula").value
+        console.log(cedula)
+        var x = verificarCedula(cedula)
+     
+        if (x) {
+            alert("La cedula no es correcta")
+        } else {
+            alert("La cedula es correcta")
+        }
+     
+    }
+    function verificarCedula(cedula) {
+  if (typeof(cedula) == 'string' && cedula.length == 10 && /^\d+$/.test(cedula)) {
+    var digitos = cedula.split('').map(Number);
+    var codigo_provincia = digitos[0] * 10 + digitos[1];
+
+    //if (codigo_provincia >= 1 && (codigo_provincia <= 24 || codigo_provincia == 30) && digitos[2] < 6) {
+
+    if (codigo_provincia >= 1 && (codigo_provincia <= 24 || codigo_provincia == 30)) {
+      var digito_verificador = digitos.pop();
+
+      var digito_calculado = digitos.reduce(
+        function (valorPrevio, valorActual, indice) {
+          return valorPrevio - (valorActual * (2 - indice % 2)) % 9 - (valorActual == 9) * 9;
+        }, 1000) % 10;
+      return digito_calculado === digito_verificador;
+}
+  }
+  return false;
+}
+    </script>
+
+<body>
+    <div class="container">
+    <h1>Validando de Cedulas Ecuatorianas:</h1> 
+    <div> Escriba la cedula ecuatoriana</div>
+    <input type="text" id="cedula">
+    <input type="button" value="validar" onclick="ejemplo()">
+    </div>
+
+</body>
+
+
+</html>
